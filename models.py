@@ -17,14 +17,25 @@ class Base(DeclarativeBase):
 class PomodoroUser(Base):
     user_id: Mapped[int] = mapped_column(BIGINT)
 
-class UserAnswer(Base):
-    __tablename__ = 'users'
 
-    user_id: Mapped[int] = mapped_column(BIGINT, unique=True, nullable=False)
-    answer1: Mapped[str] = mapped_column(String, nullable=False)
-    answer2: Mapped[str] = mapped_column(String, nullable=False)
-    answer3: Mapped[str] = mapped_column(String, nullable=False)
-    answer4: Mapped[str] = mapped_column(String, nullable=False)
+class User(Base):
+    user_id: Mapped[int] = mapped_column(BIGINT)
+    datetime: Mapped[str] = mapped_column()
+
+
+class Train(Base):
+    user_id: Mapped[int] = mapped_column(BIGINT)
+    answers: Mapped[str] = mapped_column()
+
+
+class InfoTraining(Base):
+    user_id: Mapped[int] = mapped_column(BIGINT)
+    answers: Mapped[str] = mapped_column()
+
+
+class ReflectAnswers(Base):
+    user_id: Mapped[int] = mapped_column(BIGINT)
+    answers: Mapped[str] = mapped_column()
 
 load_dotenv(find_dotenv())
 

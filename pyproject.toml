@@ -15,8 +15,8 @@ dependencies = [
     "psycopg-binary (>=3.2.4,<4.0.0)",
     "psycopg2-binary (>=2.9.10,<3.0.0)",
     "aiogram (==2.25.2)",
-    "openai (==0.28)",
     "httpx (>=0.28.1,<0.29.0)",
+    "openai (>=1.63.0,<2.0.0)",
 ]
 
 

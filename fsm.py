@@ -11,3 +11,12 @@ class InfoTrainingFSM(StatesGroup):
     task2 = State()
     task3 = State()
     task4 = State()
+
+
+
+class NeuroChat(StatesGroup):
+    is_chat = State()
+
+
+class Reflect(StatesGroup):
+    qiestions = State()
