@@ -20,3 +20,17 @@ class NeuroChat(StatesGroup):
 
 class Reflect(StatesGroup):
     qiestions = State()
+
+
+
+class ExerciseStates(StatesGroup):
+    num_of_task = State()
+
+
+
+class Exercise(StatesGroup):
+    answers = State()
+
+
+class ExerciseInfoTraining(StatesGroup):
+    answers = State()
