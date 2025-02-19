@@ -52,19 +52,9 @@ async def ask_gpt(messages: list):
     return response_content
 
 
-
-
-
-@dp.message_handler(commands="start")
-async def start_command(message: types.Message):
-    async with session_factory() as session:
-        stmt = select(User).where(User.user_id == message.from_user.id)
-        res = await session.execute(statement=stmt)
-        if res.scalar() is None:
-            stmt = insert(User).values(user_id=message.from_user.id, datetime=datetime.datetime.now().strftime('%Y-%m-%d'))
-            await session.execute(statement=stmt)
-            await session.commit()
-    await message.answer("""
+@dp.callback_query_handler(text="main_menu")
+async def return_to_main_menu(call: types.CallbackQuery):
+    await call.message.answer("""
 Привет! Я, MetaMindBot предназначенный для школьников и студентов с целью формирования и развития метакогнитивных навыков, включая осознание собственных мыслительных процессов, рефлексию, самооценку и стратегическое планирование обучения (развитие критического мышления и стратегий обучения, а также тренировки работы с информацией.
 Я — твой персональный помощник по развитию метакогнитивных навыков. Меня зовут MetaMindBot 🤖\n\n"
 "🔹 Меня создала Елена Заподойникова, психолог, нейропсихолог, свободный исследователь, аспирант-экстерн, "
@@ -97,13 +87,121 @@ async def start_command(message: types.Message):
     <a href="https://onlinetestpad.com/t/starkey2004-lutsenko2014">Тест 3</a>
     <a href="https://onlinetestpad.com/t/arpov-reflection-test">Тест 4</a>
     <a href="https://onlinetestpad.com/t/Metacognition-activity">Тест 5</a>
-    <a href="https://onlinetestpad.com/t/merkulova-ak-test">Тест 6</a>""", parse_mode="html")
+    <a href="https://onlinetestpad.com/t/merkulova-ak-test">Тест 6</a>""", parse_mode="html", reply_markup=start_keyboard())
+
+
+
+
+@dp.message_handler(commands="start")
+async def start_command(message: types.Message):
+    async with session_factory() as session:
+        stmt = select(User).where(User.user_id == message.from_user.id)
+        res = await session.execute(statement=stmt)
+        if res.scalar() is None:
+            stmt = insert(User).values(user_id=message.from_user.id, datetime=datetime.datetime.now().strftime('%Y-%m-%d'))
+            await session.execute(statement=stmt)
+            await session.commit()
+            await message.answer("""
+Привет! Я, MetaMindBot предназначенный для школьников и студентов с целью формирования и развития метакогнитивных навыков, включая осознание собственных мыслительных процессов, рефлексию, самооценку и стратегическое планирование обучения (развитие критического мышления и стратегий обучения, а также тренировки работы с информацией.
+Я — твой персональный помощник по развитию метакогнитивных навыков. Меня зовут MetaMindBot 🤖\n\n"
+"🔹 Меня создала Елена Заподойникова, психолог, нейропсихолог, свободный исследователь, аспирант-экстерн, "
+"автор проекта «Культура ИИ: умное обучение» для того, чтобы помочь тебе осознанно учиться, анализировать "
+"свой прогресс и находить лучшие стратегии самостоятельного обучения.  Подписывайтесь на её канал: @eduneuro2025\n\n"
+"📌 Важно: Конфиденциальность для пользователей гарантирована. Методика является образовательной, авторские права защищены. "
+"🔹 Со мной ты научишься:\n"
+"🔹 — Рефлексировать и анализировать свой день\n"
+"🔹 — Улучшать учебные привычки\n"
+"🔹 — Развивать концентрацию и осознанность\n"
+"🔹 — Работать с информацией эффективно и быстро\n"
+"🔹 — Готовиться к экзаменам без стресса\n"
+"🔹 — Использовать эффективные методы запоминания\n"
+"🔹 — Применять стратегии тайм-менеджмента\n\n"
+"🔥 Давай начнем! Выбери кнопку ниже, чтобы зарегистрироваться! 🔥"
+Как работает бот?z
+1.	Пройди входное тестирование – это обязательный шаг перед началом работы.
+2.	После теста получишь доступ к функциям бота.
+3.	Следуй рекомендуемому графику (3 занятия в неделю): 
+    o	Метакогнитивные упражнения (/train)
+    o	Тренинг работы с информацией (🧠 InfoTraining)
+    o	Рефлексия (/reflect)
+    o	Помодоро-таймер для продуктивного обучения (/pomodoro)
+4.	Через 3 месяца бот предложит повторное тестирование (/retest).
+5.	Используй поддержку: 
+    o	Если у тебя проблемы с мотивацией — напиши в психологический чат (/psych_chat).
+🚀 Давай начнем! Для регистрации пройди входные тесты:
+    <a href="https://onlinetestpad.com/s/academic-text-skills">Тест 1</a>
+    <a href="https://onlinetestpad.com/t/borzova-text-test">Тест 2</a>
+    <a href="https://onlinetestpad.com/t/starkey2004-lutsenko2014">Тест 3</a>
+    <a href="https://onlinetestpad.com/t/arpov-reflection-test">Тест 4</a>
+    <a href="https://onlinetestpad.com/t/Metacognition-activity">Тест 5</a>
+    <a href="https://onlinetestpad.com/t/merkulova-ak-test">Тест 6</a>""", parse_mode="html", reply_markup=start_keyboard())
+            
+        else:
+            await message.answer("""
+Привет! Я, MetaMindBot предназначенный для школьников и студентов с целью формирования и развития метакогнитивных навыков, включая осознание собственных мыслительных процессов, рефлексию, самооценку и стратегическое планирование обучения (развитие критического мышления и стратегий обучения, а также тренировки работы с информацией.
+Я — твой персональный помощник по развитию метакогнитивных навыков. Меня зовут MetaMindBot 🤖\n\n"
+"🔹 Меня создала Елена Заподойникова, психолог, нейропсихолог, свободный исследователь, аспирант-экстерн, "
+"автор проекта «Культура ИИ: умное обучение» для того, чтобы помочь тебе осознанно учиться, анализировать "
+"свой прогресс и находить лучшие стратегии самостоятельного обучения.  Подписывайтесь на её канал: @eduneuro2025\n\n"
+"📌 Важно: Конфиденциальность для пользователей гарантирована. Методика является образовательной, авторские права защищены. "
+"🔹 Со мной ты научишься:\n"
+"🔹 — Рефлексировать и анализировать свой день\n"
+"🔹 — Улучшать учебные привычки\n"
+"🔹 — Развивать концентрацию и осознанность\n"
+"🔹 — Работать с информацией эффективно и быстро\n"
+"🔹 — Готовиться к экзаменам без стресса\n"
+"🔹 — Использовать эффективные методы запоминания\n"
+"🔹 — Применять стратегии тайм-менеджмента\n\n"
+"🔥 Давай начнем! Выбери кнопку ниже, чтобы зарегистрироваться! 🔥"
+Как работает бот?z
+1.	Пройди входное тестирование – это обязательный шаг перед началом работы.
+2.	После теста получишь доступ к функциям бота.
+3.	Следуй рекомендуемому графику (3 занятия в неделю): 
+    o	Метакогнитивные упражнения (/train)
+    o	Тренинг работы с информацией (🧠 InfoTraining)
+    o	Рефлексия (/reflect)
+    o	Помодоро-таймер для продуктивного обучения (/pomodoro)
+4.	Через 3 месяца бот предложит повторное тестирование (/retest).
+5.	Используй поддержку: 
+    o	Если у тебя проблемы с мотивацией — напиши в психологический чат (/psych_chat).""", reply_markup=start_keyboard())
+
 
     await sleep(90 * 24 * 60 * 60)
 
     await message.answer("""Привет!
 У тебя все отлично получается. Ты занимаешься уже 3 месяца, супер!
 Настало время зафиксировать прогресс, пройдя заново тесты. Смело пиши /retest""", parse_mode="html")
+
+
+
+@dp.callback_query_handler(text_startswith="s:")
+async def start_keyboard_handler(call: types.CallbackQuery, state: FSMContext):
+    dat = call.data.split(":")[1]
+
+    if dat == "help":
+        await help_cmd(message=call.message)
+
+
+    if dat == "pomodoro":
+        await pomodoro_logic(message=call.message, user_id=call.from_user.id)
+
+    if dat == "metakog":
+        await train_start_cmd(message=call.message, state=state)
+    
+    if dat == "info":
+        await info_training_command(message=call.message, state=state)
+    
+    if dat == "reflect":
+        await reflect_command(message=call.message, state=state)
+    
+    if dat == "psycho":
+        await psych_chat(message=call.message, state=state)
+    
+    if dat == "retest":
+        await retest_logic(message=call.message, user_id=call.from_user.id)
+    
+    if dat == "profile":
+        await profile_logic(message=call.message, user_id=call.from_user.id)
 
 
 @dp.message_handler(commands="help")
@@ -135,164 +233,114 @@ async def help_cmd(message: types.Message):
 
 📌 **Совет:** Начни с тестирования **/test**, проходи **тренировки 3 раза в неделю**, используй **Pomodoro-таймер** и не забывай **рефлексировать**!  
 
-Если у тебя возникли вопросы, просто напиши мне! 🚀""")
+Если у тебя возникли вопросы, просто напиши мне! 🚀""", reply_markup=main_menu_keyboard())
 
-
-@dp.callback_query_handler(text="start_test")
-async def start_test_callback_cmd(call: types.CallbackQuery):
-    await call.message.edit_text("""Сообщение для отправки тестирования
-    
-""", reply_markup=auth_code())
-
-
-@dp.callback_query_handler(text="auth_code")
-async def auth_code_callback_command(call: types.CallbackQuery):
-    await call.message.edit_text("Введите код:")
-    await Auth.code.set()
 
 
 @dp.message_handler(commands="pomodoro")
 async def pomodoro_CMD(message: types.Message):
+    await pomodoro_logic(message=message, user_id=message.from_user.id)
+
+
+
+async def pomodoro_logic(message: types.Message, user_id: int):
     async with session_factory() as session:
-        stmt = select(PomodoroUser).where(PomodoroUser.user_id == message.from_user.id)
+        stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
         user = await session.execute(statement=stmt)
         user = user.scalar()
         await session.commit()
     print(user)
     if user is not None:
-        print(1)
         async with session_factory() as session:
-            stmt = delete(PomodoroUser).where(PomodoroUser.user_id == message.from_user.id)
+            stmt = delete(PomodoroUser).where(PomodoroUser.user_id == user_id)
             await session.execute(statement=stmt)
             await session.commit()
+            await message.answer("⏹ Pomodoro-таймер остановлен. Если хочешь снова запустить, напиши /pomodoro", reply_markup=main_menu_keyboard())
             return
     if user is None:
         async with session_factory() as session:
-            stmt = insert(PomodoroUser).values(user_id=message.from_user.id)
+            stmt = insert(PomodoroUser).values(user_id=user_id)
             user = await session.execute(statement=stmt)
             await session.commit()
-        while True:
-            await message.answer("Start1")
-            await sleep(5) #TODO 20 * 60
+
+            await message.answer("🍅 Pomodoro-таймер запущен! Работай 25 минут, затем будет 5 минут отдыха.")
+            await sleep(25 * 60)
             async with session_factory() as session:
-                stmt = select(PomodoroUser).where(PomodoroUser.user_id == message.from_user.id)
+                stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
                 user = await session.execute(statement=stmt)
                 user = user.scalar()
             if user is None:
                 print("3")
                 return
             
-            await message.answer("Start2")
-            await sleep(2) #TODO 5 * 60
+            await message.answer("⏳ Перерыв 5 минут! Отдохни и расслабься. ☕")
+            await sleep(5 * 60)
 
             async with session_factory() as session:
-                stmt = select(PomodoroUser).where(PomodoroUser.user_id == message.from_user.id)
+                stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
                 user = await session.execute(statement=stmt)
                 user = user.scalar()
             if user is None:
-                print("2")
                 return
+            
+            await message.answer("🚀 Новый Pomodoro-цикл! Работай еще 25 минут.")
+            await sleep(25 * 60)
 
+            async with session_factory() as session:
+                stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
+                user = await session.execute(statement=stmt)
+                user = user.scalar()
+            if user is None:
+                return
+            
+            await message.answer("⏳ Перерыв 5 минут! Отдохни и расслабься. ☕")
+            await sleep(5 * 60)
 
-# @dp.message_handler(commands="train")
-# async def train_CMD(message: types.Message):
-#     await message.answer("""Приветствую тебя! Ты на верном пути!
-# Запомни, что  эти универсальные упражнения развивают несколько метакогнитивных навыков: осознание мышления, самоконтроль, критическое мышление, планирование, саморегуляция, развитие памяти и обучение.
-# Выполняй их 3 раза в неделю на протяжении 3 месяцев и ты почувствуешь, как прокачиваются твои навыки раз за разом""",)
+            
+            async with session_factory() as session:
+                stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
+                user = await session.execute(statement=stmt)
+                user = user.scalar()
+            if user is None:
+                return
+            
+            await message.answer("🚀 Новый Pomodoro-цикл! Работай еще 25 минут.")
+            await sleep(25 * 60)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            async with session_factory() as session:
+                stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
+                user = await session.execute(statement=stmt)
+                user = user.scalar()
+            if user is None:
+                return
+            
+            await message.answer("⏳ Перерыв 5 минут! Отдохни и расслабься. ☕")
+            await sleep(5 * 60)
 
 
 
+            async with session_factory() as session:
+                stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
+                user = await session.execute(statement=stmt)
+                user = user.scalar()
+            if user is None:
+                return
+            
+            await message.answer("🚀 Новый Pomodoro-цикл! Работай еще 25 минут.")
+            await sleep(25 * 60)
+
+            async with session_factory() as session:
+                stmt = select(PomodoroUser).where(PomodoroUser.user_id == user_id)
+                user = await session.execute(statement=stmt)
+                user = user.scalar()
+            if user is None:
+                return
+            
+            await message.answer("🎉 Ты завершил 4 Pomodoro-цикла! Отличная работа!", reply_markup=main_menu_keyboard())
+
+            
 
 
-
-
-
-
-
-
-
-
-
-import logging
-from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.utils import executor
-from sqlalchemy.orm import sessionmaker
-
-
-# Настройки
-
-
-# Определяем состояния FSM
-class ExerciseStates(StatesGroup):
-    num_of_task = State()
-
-
-class Exercise1(StatesGroup):
-    q1 = State()
-    q2 = State()
-    q3 = State()
-    q4 = State()
-    q5 = State()
-
-
-class Exercise2(StatesGroup):
-    q1 = State()
-    q2 = State()
-    q3 = State()
-    q4 = State()
-
-class Exercise3(StatesGroup):
-    q1 = State()
-    q2 = State()
-    q3 = State()
-    q4 = State()
-
-
-class Exercise4(StatesGroup):
-    q1 = State()
-    q2 = State()
-    q3 = State()
-
-
-class Exercise(StatesGroup):
-    answers = State()
-
-
-class ExerciseInfoTraining(StatesGroup):
-    answers = State()
 
 
 
@@ -316,6 +364,13 @@ async def s(message: types.Message, state: FSMContext):
 @dp.message_handler(commands='s', state=Exercise)
 async def ss(message: types.Message, state: FSMContext):
     await state.finish()
+
+@dp.message_handler(commands='s', state=ExerciseInfoTraining)
+async def ss(message: types.Message, state: FSMContext):
+    await state.finish()
+
+
+
 
 @dp.message_handler(commands=['train'])
 async def train_start_cmd(message: types.Message, state: FSMContext):
@@ -416,7 +471,7 @@ async def select_task_command(message: types.Message, state: FSMContext):
 
                 if len(data["questions"]) == 0:
                     res = await ask_gpt(messages=messages)
-                    await message.answer(res)
+                    await message.answer(res, reply_markup=main_menu_keyboard())
                     async with session_factory() as session:
                         stmt = insert(Train).values(user_id=message.from_user.id, answers="RAZDELITEL".join(data["all_answers"]))
                         await session.execute(statement=stmt)
@@ -567,7 +622,7 @@ async def select_task_command_info_training(message: types.Message, state: FSMCo
 
                 if len(data["questions"]) == 0:
                     res = await ask_gpt(messages=messages)
-                    await message.answer(res)
+                    await message.answer(res, reply_markup=main_menu_keyboard())
                     async with session_factory() as session:
                         stmt = insert(InfoTraining).values(user_id=message.from_user.id, answers="RAZDELITEL".join(data["all_answers"]))
                         await session.execute(statement=stmt)
@@ -605,7 +660,7 @@ async def chat_with_gpt_psych(message: types.Message, state: FSMContext):
     
     if message.text == "/psych_chat":
         await state.finish()
-        await message.answer("Чат с психологом завершен, ждем тебя завтра!\nДля начала чата с психологом используй команду /psych_chat")
+        await message.answer("Чат с психологом завершен, ждем тебя завтра!\nДля начала чата с психологом используй команду /psych_chat", reply_markup=main_menu_keyboard())
         return
     
     async with state.proxy() as data:
@@ -643,7 +698,7 @@ async def reflect_command(message: types.Message, state: FSMContext):
 
     await message.answer(reflect_lst[0])
     
-@dp.message_handler(commands=["sex"], state=Reflect)
+@dp.message_handler(commands=["s"], state=Reflect)
 async def asdkfjsdf(message: types.Message, state: FSMContext):
     await state.finish()
 
@@ -674,7 +729,7 @@ async def reflect_answers(message: types.Message, state: FSMContext):
                         {"role": "user", "content": pr_lst}]
 
             res = await ask_gpt(messages=messages)
-            await message.answer(res)
+            await message.answer(res, reply_markup=main_menu_keyboard())
 
 
     if len(message.text.split()) < 6:
@@ -691,8 +746,15 @@ async def reflect_answers(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands="profile")
 async def profile_command(message: types.Message):
+    await profile_logic(message=message, user_id=message.from_user.id)
+
+
+
+
+
+async def profile_logic(message: types.Message, user_id: int):
     async with session_factory() as session: 
-        stmt = select(Train.answers).where(Train.user_id == message.from_user.id)
+        stmt = select(Train.answers).where(Train.user_id == user_id)
         res = await session.execute(statement=stmt)
         res = res.scalars().all()
         if res is not None:
@@ -705,7 +767,7 @@ async def profile_command(message: types.Message):
     
 
 
-        stmt = select(InfoTraining.answers).where(InfoTraining.user_id == message.from_user.id)
+        stmt = select(InfoTraining.answers).where(InfoTraining.user_id == user_id)
         res = await session.execute(statement=stmt)
         res = res.scalars().all()
         if res is not None:
@@ -718,7 +780,7 @@ async def profile_command(message: types.Message):
 
 
 
-        stmt = select(ReflectAnswers.answers).where(ReflectAnswers.user_id == message.from_user.id)
+        stmt = select(ReflectAnswers.answers).where(ReflectAnswers.user_id == user_id)
         res = await session.execute(statement=stmt)
         res = res.scalars().all()
         if res is not None:
@@ -745,14 +807,17 @@ async def profile_command(message: types.Message):
             messages.append({"role": "user", "content": i})
 
         ans = await ask_gpt(messages=messages)
-        await message.answer(ans)
+        await message.answer(ans, reply_markup=main_menu_keyboard())
 
 
 @dp.message_handler(commands="retest")
 async def retest_command(message: types.Message):
+    await retest_logic(message=message, user_id=message.from_user.id)
 
+
+async def retest_logic(message: types.Message, user_id: int):
     async with session_factory() as session:
-        stmt = select(User.datetime).where(User.user_id == message.from_user.id)
+        stmt = select(User.datetime).where(User.user_id == user_id)
         r = await session.execute(statement=stmt)
         date = r.scalar()
 
@@ -763,7 +828,7 @@ async def retest_command(message: types.Message):
     days = abs((d2 - d1).days)
 
     if days <= 90:
-        await message.answer("Ты пока что не можешь перепройти тестирования, должно пройти три месяца!!!")
+        await message.answer("Ты пока что не можешь перепройти тестирования, должно пройти три месяца!!!", reply_markup=main_menu_keyboard())
     else:
         await message.answer("""Вот тебе ссылочки на тестирования:
     <a href="https://onlinetestpad.com/s/academic-text-skills">Тест 1</a>
@@ -771,7 +836,7 @@ async def retest_command(message: types.Message):
     <a href="https://onlinetestpad.com/t/starkey2004-lutsenko2014">Тест 3</a>
     <a href="https://onlinetestpad.com/t/arpov-reflection-test">Тест 4</a>
     <a href="https://onlinetestpad.com/t/Metacognition-activity">Тест 5</a>
-    <a href="https://onlinetestpad.com/t/merkulova-ak-test">Тест 6</a>""", parse_mode="html")
+    <a href="https://onlinetestpad.com/t/merkulova-ak-test">Тест 6</a>""", parse_mode="html", reply_markup=main_menu_keyboard())
 
 
 if __name__ == "__main__":
