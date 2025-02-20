@@ -180,15 +180,16 @@ async def start_command(message: types.Message):
 async def courses_command(message: types.Message):
     await message.answer("""
 🎓 **Рекомендованные онлайн-курсы:**\n\n"
-"📘 [Stepik](https://stepik.org/)\n"
-"💡 [Coursera](https://www.coursera.org/)\n"
-"👨‍💻 [Harvard CS50](https://cs50.harvard.edu/)\n"
-"📖 [OpenEdu](https://openedu.ru/)\n\n"
-"🎓 **Курсы ведущих российских университетов:**\n"
-"🏛 [Томский государственный университет (ТГУ)](https://mooc.tsu.ru/)\n"
-"📚 [МГУ – Открытое образование](https://openedu.ru/university/msu/)\n"
-"🏫 [Высшая школа экономики (ВШЭ) – Онлайн-курсы](https://elearning.hse.ru/)\n\n"
-"📌 Выбери платформу и начни обучение! 🚀""", parse_mode="Markdown", reply_markup=main_menu_keyboard())
+📘 [Stepik](https://stepik.org/)\n"
+💡 [Coursera](https://www.coursera.org/)\n"
+👨‍💻 [Harvard CS50](https://cs50.harvard.edu/)\n"
+📖 [OpenEdu](https://openedu.ru/)\n\n"
+🎓 **Курсы ведущих российских университетов:**\n"
+🏛 [Томский государственный университет (ТГУ)](https://mooc.tsu.ru/)\n"
+📚 [МГУ – Открытое образование](https://openedu.ru/university/msu/)\n"
+🏫 [Высшая школа экономики (ВШЭ) – Онлайн-курсы](https://elearning.hse.ru/)\n\n"
+
+📌 Выбери платформу и начни обучение! 🚀""", parse_mode="Markdown", reply_markup=main_menu_keyboard())
 
 
 
@@ -196,13 +197,14 @@ async def courses_command(message: types.Message):
 async def resources_command(message: types.Message):
      await message.answer("""
 📚 **Полезные научные ресурсы:**\n\n"
-"🔎 [Google Scholar](https://scholar.google.com/)\n"
-"📖 [SciSpace](https://www.scispace.com/)\n"
-"📚 [eLibrary](https://elibrary.ru/)\n"
-"🔬 [PubMed](https://pubmed.ncbi.nlm.nih.gov/)\n"
-"📄 [SpringerLink](https://link.springer.com/)\n"
-"🧠 [ResearchGate](https://www.researchgate.net/)\n\n"
-"Используй эти сайты для поиска научных статей и исследований."
+🔎 [Google Scholar](https://scholar.google.com/)\n"
+📖 [SciSpace](https://www.scispace.com/)\n"
+📚 [eLibrary](https://elibrary.ru/)\n"
+🔬 [PubMed](https://pubmed.ncbi.nlm.nih.gov/)\n"
+📄 [SpringerLink](https://link.springer.com/)\n"
+🧠 [ResearchGate](https://www.researchgate.net/)\n\n"
+
+📌 Используй эти сайты для поиска научных статей и исследований.
 """, parse_mode="Markdown", reply_markup=main_menu_keyboard())
 
 
