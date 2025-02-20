@@ -11,6 +11,9 @@ def start_keyboard():
     kb.add(InlineKeyboardButton(text="Чат с психологом", callback_data="s:psycho"))
     kb.add(InlineKeyboardButton(text="Пройти тест заново", callback_data="s:retest"))
     kb.add(InlineKeyboardButton(text="Профиль", callback_data="s:profile"))
+    kb.add(InlineKeyboardButton(text="Курсы", callback_data="s:courses"))
+    kb.insert(InlineKeyboardButton(text="Ресурсы", callback_data="s:resources"))
+
 
 
     return kb

@@ -240,6 +240,12 @@ async def start_keyboard_handler(call: types.CallbackQuery, state: FSMContext):
     if dat == "profile":
         await profile_logic(message=call.message, user_id=call.from_user.id)
 
+    if dat == "courses":
+        await courses_command(message=call.message)
+
+    if dat == "resources":
+        await resources_command(message=call.message)
+
 
 @dp.message_handler(commands="help")
 async def help_cmd(message: types.Message):
