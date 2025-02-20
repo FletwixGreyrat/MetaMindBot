@@ -174,6 +174,41 @@ async def start_command(message: types.Message):
 
 
 
+
+
+@dp.message_handler(commands="courses")
+async def courses_command(message: types.Message):
+    await message.answer("""
+🎓 **Рекомендованные онлайн-курсы:**\n\n"
+"📘 [Stepik](https://stepik.org/)\n"
+"💡 [Coursera](https://www.coursera.org/)\n"
+"👨‍💻 [Harvard CS50](https://cs50.harvard.edu/)\n"
+"📖 [OpenEdu](https://openedu.ru/)\n\n"
+"🎓 **Курсы ведущих российских университетов:**\n"
+"🏛 [Томский государственный университет (ТГУ)](https://mooc.tsu.ru/)\n"
+"📚 [МГУ – Открытое образование](https://openedu.ru/university/msu/)\n"
+"🏫 [Высшая школа экономики (ВШЭ) – Онлайн-курсы](https://elearning.hse.ru/)\n\n"
+"📌 Выбери платформу и начни обучение! 🚀""", parse_mode="Markdown", reply_markup=main_menu_keyboard())
+
+
+
+@dp.message_handler(commands="resources")
+async def resources_command(message: types.Message):
+     await message.answer("""
+📚 **Полезные научные ресурсы:**\n\n"
+"🔎 [Google Scholar](https://scholar.google.com/)\n"
+"📖 [SciSpace](https://www.scispace.com/)\n"
+"📚 [eLibrary](https://elibrary.ru/)\n"
+"🔬 [PubMed](https://pubmed.ncbi.nlm.nih.gov/)\n"
+"📄 [SpringerLink](https://link.springer.com/)\n"
+"🧠 [ResearchGate](https://www.researchgate.net/)\n\n"
+"Используй эти сайты для поиска научных статей и исследований."
+""", parse_mode="Markdown", reply_markup=main_menu_keyboard())
+
+
+
+
+
 @dp.callback_query_handler(text_startswith="s:")
 async def start_keyboard_handler(call: types.CallbackQuery, state: FSMContext):
     dat = call.data.split(":")[1]
@@ -524,6 +559,7 @@ async def info_training_command(message: types.Message, state: FSMContext):
     kb.add(types.KeyboardButton("Задание 5. «Выяви скрытые смысловые связи»"))
     kb.add(types.KeyboardButton("Задание 6. «Поиск информации по ключевым словам»"))
     kb.add(types.KeyboardButton("Задание 7. «Быстрое изучение большого объёма информации»"))
+    kb.add(types.KeyboardButton("Задание 8. «Проверка достоверности текста нейросети»"))
 
 
     await message.answer("""Приветствую тебя! Ты на верном пути! Запомни, что  эти универсальные упражнения  развивают несколько метакогнитивных навыков: осознание мышления, самоконтроль, критическое мышление, планирование, саморегуляция, развитие памяти и обучение. Выполняй их 3 раза в неделю на протяжении 3 месяцев и ты почувствуешь, как прокачиваются твои навыки раз за разом. 
@@ -537,7 +573,8 @@ async def info_training_command(message: types.Message, state: FSMContext):
         "Задание 4. «Проблема с разных сторон»", \
         "Задание 5. «Выяви скрытые смысловые связи»", \
         "Задание 6. «Поиск информации по ключевым словам»", \
-        "Задание 7. «Быстрое изучение большого объёма информации»"]
+        "Задание 7. «Быстрое изучение большого объёма информации»", \
+        "Задание 8. «Проверка достоверности текста нейросети»"]
         data["active_question"] = None
         data["all_answers"] = []
         data["only_answers"] = []
@@ -584,6 +621,10 @@ async def select_task_command_info_training(message: types.Message, state: FSMCo
             elif message.text == "Задание 7. «Быстрое изучение большого объёма информации»":
                 data["amount_of_questions"] = 4
                 data["n"] = 7
+
+            elif message.text == "Задание 8. «Проверка достоверности текста нейросети»":
+                data["amount_of_questions"] = 5
+                data["n"] = 8
 
 
             data["all_answers"].append(message.text)
